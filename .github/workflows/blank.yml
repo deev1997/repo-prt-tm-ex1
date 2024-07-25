@@ -32,5 +32,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          sudo apt -y update
+          sudo apt install -y postgresql-client
+          echo ${{ secrets.PG_PASS }} > chave.pem
+          echo ${{ vars.DB_HOST }}
+          chmod 600 chave.pem
+          ls -all
+          cat chave.pem
+          PGPASSWORD=${{ secrets.PG_PASS }} psql -d db-ea -h ${{ vars.DB_HOST }} -U postgres -f listagem.sql 
